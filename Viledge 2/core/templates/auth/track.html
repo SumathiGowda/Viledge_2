@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Complaint Status</title>
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #003366;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin: 20px 0;
+        }
+
+        label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: #003366;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #002a5d;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Track Your Complaint</h1>
+        <form id="trackingForm">
+            <label for="complaintId">Enter Your Complaint ID</label>
+            <input type="text" id="complaintId" name="complaintId" placeholder="Complaint ID" required>
+            <button type="submit">Track Complaint</button>
+        </form>
+
+        <!-- Dynamic Status Display -->
+        <div id="statusMessage" class="status" style="display: none;"></div>
+    </div>
+
+    <script>
+        document.getElementById('trackingForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            const complaintId = document.getElementById('complaintId').value.trim();
+            const statusMessage = document.getElementById('statusMessage');
+
+            // Dummy Logic for Status Tracking
+            if (complaintId === "12345") {
+                statusMessage.style.display = 'block';
+                statusMessage.className = 'status success';
+                statusMessage.innerText = "Your complaint has been resolved. Thank you for your patience!";
+            } else if (complaintId === "67890") {
+                statusMessage.style.display = 'block';
+                statusMessage.className = 'status pending';
+                statusMessage.innerText = "Your complaint is under review. Please check back later.";
+            } else {
+                statusMessage.style.display = 'block';
+                statusMessage.className = 'status error';
+                statusMessage.innerText = "Invalid Complaint ID. Please check and try again.";
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Dashboard</title>
+   <link rel="stylesheet" href="/static/dashboard.css">
+   <script src="/static/dashboard.js" defer></script>
+   <style>
+      /* General Reset */
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: Arial, sans-serif;
+}
+
+/* Body Styles */
+body {
+   background-color: #f4f4f9;
+   color: #333;
+   line-height: 1.6;
+}
+
+/* Header Styles */
+.dashboard-header {
+   background-color: #003366; /* Dark Blue */
+   color: white;
+   padding: 1rem 0;
+}
+
+.dashboard-header .container {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.dashboard-header h1 {
+   font-size: 1.8rem;
+   margin-bottom: 10px;
+}
+
+.dashboard-header nav a {
+   color: white;
+   text-decoration: none;
+   margin-left: 1rem;
+   font-size: 1rem;
+}
+
+.dashboard-header nav a:hover {
+   text-decoration: underline;
+}
+
+/* Welcome Section */
+.welcome-section {
+   background-color: #005a9e; /* Blue */
+   padding: 2rem 0;
+   text-align: center;
+}
+
+.welcome-section h2 {
+   font-size: 2rem;
+   margin-bottom: 0.5rem;
+   color: white;
+}
+
+.welcome-section p {
+   font-size: 1rem;
+   color: #f4f4f9; /* Lighter color for text */
+}
+
+/* Dashboard Content */
+.dashboard-main .container {
+   margin: 2rem auto;
+   max-width: 1200px;
+   display: flex;
+   gap: 1.5rem;
+   justify-content: center;
+   flex-wrap: wrap;
+}
+
+/* Dashboard Widgets */
+.dashboard-widgets {
+   display: flex;
+   gap: 1.5rem;
+   flex-wrap: wrap;
+}
+
+.widget {
+   background-color: white;
+   border: 1px solid #ddd;
+   padding: 1.5rem;
+   width: 300px;
+   text-align: center;
+   border-radius: 8px;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.widget h3 {
+   font-size: 1.5rem;
+   color: #003366;
+   margin-bottom: 1rem;
+}
+
+.widget p {
+   font-size: 0.9rem;
+   color: #555;
+   margin-bottom: 1rem;
+}
+
+.widget button {
+   background-color: #003366; /* Dark Blue */
+   color: white;
+   border: none;
+   padding: 0.7rem 1.5rem;
+   font-size: 1rem;
+   cursor: pointer;
+   border-radius: 4px;
+}
+
+.widget button:hover {
+   background-color: #002a5d; /* Darker shade of blue */
+}
+
+/* Footer Styles */
+.dashboard-footer {
+   text-align: center;
+   padding: 1rem;
+   background-color: #003366; /* Dark Blue */
+   color: white;
+   margin-top: 2rem;
+}
+</style>
+</head>
+<body>
+   <!-- Header Section -->
+   <header class="dashboard-header">
+      <div class="container">
+         <h1>Village Management System</h1>
+         <nav>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="">Profile</a>
+            <a href="">Services</a>
+            <a href="{% url 'login' %}">Logout</a>
+        </nav>
+        
+      </div>
+   </header>
+
+   <!-- Welcome Section -->
+   <section class="welcome-section">
+      <div class="container">
+         <h2>Welcome, {{request.user.username}}</h2>
+         <p>Here you can manage your village-related tasks and track updates.</p>
+      </div>
+   </section>
+
+   <!-- Main Dashboard Content -->
+   <main class="dashboard-main">
+      <div class="container">
+         <div class="dashboard-widgets">
+            <!-- Widget: Complaints -->
+            <div class="widget" id="complaints-widget">
+               <h3>Complaints</h3>
+               <p>Fill the complaints form</p>
+              
+               <button onclick="window.location.href='{% url 'complaint_form' %}'">Register Complaints</button>  <!-- Updated button -->
+            </div>
+
+            <!-- Widget: Applications -->
+            <div class="widget" id="applications-widget">
+               <h3>Applications</h3>
+               <p>Track your submitted applications.</p>
+               <button onclick="window.location.href='{% url 'status' %}'">View Applications</button>  <!-- Updated button -->
+           </div>
+           
+
+         </div>
+      </div>
+   </main>
+
+   <!-- Footer Section -->
+   <footer class="dashboard-footer">
+      <p>&copy; 2024 Village Management System. All Rights Reserved.</p>
+   </footer>
+</body>
+</html>

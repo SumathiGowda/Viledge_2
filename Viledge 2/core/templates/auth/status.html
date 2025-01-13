@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Check the status of your complaint quickly and easily.">
+    <title>VilEdge | Check Complaint Status</title>
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+ /* Header Section */
+ .header {
+    background-color: #003366;
+    color: #fff;
+    padding: 15px 0;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2rem;
+}
+
+.header nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 1rem;
+}
+
+.header nav a:hover {
+    text-decoration: underline;
+}
+
+        /* Main Section */
+        .status-check {
+            background-color: #ffffff;
+            text-align: center;
+            padding: 60px 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .status-check h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .status-check p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        .status-check form {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .status-check label {
+            font-size: 1rem;
+            color: #333;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .status-check input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+
+        .status-check button {
+            background-color: #003366;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .status-check button:hover {
+            background-color: #002a5d;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        /* Complaint details box styling */
+/* Complaint details box styling */
+.complaint-details-box {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;  /* Ensure the box takes up the available width */
+    max-width: 800px;  /* Optional: Set a max width for a more controlled layout */
+    text-align: left; /* Align content inside the box to the left */
+}
+
+
+.complaint-details-box h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.complaint-details-box p {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.complaint-details-box p strong {
+    color: #003366;
+}
+
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <h1>VilEdge: Village Management System</h1><br>
+            <nav>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'depart' %}">Departments</a>
+                <a href="{% url 'status' %}">Check Complaint Status</a>
+                <a href="{% url 'aboutUs' %}">About Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Check Complaint Status Section -->
+    <section class="status-check">
+        <div class="container">
+            <h2>Check Complaint Status</h2>
+            <p>Enter your complaint ID to view the current status of your complaint.</p>
+            <form action="{% url 'status' %}" method="POST">
+                {% csrf_token %}
+                <label for="complaint-id">Complaint ID</label>
+                <input type="text" id="complaint-id" name="complaint-id" placeholder="Enter your Complaint ID" required>
+                <button type="submit">Check Status</button>
+            </form>
+            {% if complaint %}
+            <div class="complaint-details-box">
+                <h3>Complaint Details</h3>
+                <p><strong>Complaint ID:</strong> {{ complaint.complaint_id }}</p>
+                <p><strong>Name:</strong> {{ complaint.name }}</p>
+                <p><strong>Department:</strong> {{ complaint.department }}</p>
+                <p><strong>Location:</strong> {{ complaint.location }}</p>
+                <p><strong>Date Registered:</strong> {{ complaint.created_at|date:"Y-m-d" }}</p>
+                <p><strong>Description:</strong> {{ complaint.complaint }}</p>
+        
+                <!-- Status section moved here -->
+                <p><strong>Status:</strong>
+                    <span class="{% if complaint.status == 'pending' %}status-pending{% elif complaint.status == 'in_progress' %}status-in-progress{% elif complaint.status == 'solved' %}status-solved{% endif %}">
+                        {{ complaint.status }}
+                    </span>
+                </p>
+            </div>
+            {% elif error %}
+                <p style="color: red;">{{ error }}</p>
+            {% endif %}
+            
+            <style>
+                .status-pending {
+                    background-color: red;
+                    color: white;
+                    padding: 5px 10px;
+                    border-radius: 15px;
+                }
+        
+                .status-in-progress {
+                    background-color: yellow;
+                    color: black;
+                    padding: 5px 10px;
+                    border-radius: 15px;
+                }
+        
+                .status-solved {
+                    background-color: green;
+                    color: white;
+                    padding: 5px 10px;
+                    border-radius: 15px;
+                }
+            </style>
+        </div>
+        
+    </section>
+    
+    <!-- Footer Section -->
+    <footer class="footer">
+        <p>&copy; 2024 Village Project. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

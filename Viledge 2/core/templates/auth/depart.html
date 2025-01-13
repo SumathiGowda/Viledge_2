@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Empowering rural communities through sustainable village projects. Join us in making a difference!">
+    <title>VilEdge | Empowering Communities</title>
+    <link rel="stylesheet" href="/static/form.css">
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .header {
+            background-color: #003366;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+        }
+
+        .header nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1rem;
+        }
+
+        .header nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: #005a9e;
+            color: #fff;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .hero button {
+            background-color: #003366;
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .hero button:hover {
+            background-color: #002a5d;
+        }
+
+        /* Departments Section */
+        .departments {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            padding: 60px 0;
+            background-color: #ffffff;
+            text-align: center;
+        }
+
+        .department-card {
+            background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent overlay */
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .department-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            z-index: 1;
+        }
+
+        .department-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Individual Department Background Images */
+        .education {
+            background-image: url('https://via.placeholder.com/600x400/ffcc99/003366?text=Education+Department');
+        }
+
+        .agriculture {
+            background-image: url('https://via.placeholder.com/600x400/99ff99/003366?text=Agriculture+Department');
+        }
+
+        .water {
+            background-image: url('https://via.placeholder.com/600x400/99ccff/003366?text=Water+Department');
+        }
+
+        .transport {
+            background-image: url('https://via.placeholder.com/600x400/ccccff/003366?text=Transport+Department');
+        }
+
+        .milk {
+            background-image: url('https://via.placeholder.com/600x400/ffccff/003366?text=Milk+Department');
+        }
+
+        /* Contact Section */
+        .contact {
+            background-color: #f5f5f5;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .contact p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .contact form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact input,
+        .contact textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .contact button {
+            background-color: #003366;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .contact button:hover {
+            background-color: #002a5d;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+
+        }
+
+        /* Departments Section */
+.departments {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 30px;
+    padding: 60px 0;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.department-card {
+    background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent overlay */
+    color: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    width: 100%; /* Adjust to fit grid */
+    height: 300px; /* Set consistent height */
+}
+
+.department-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <h1>VilEdge: Village Management System</h1><br>
+            <nav>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'depart' %}">Departments</a>
+                <a href="{% url 'status' %}">Check Complaint Status</a>
+                <a href="{% url 'aboutUs' %}">About Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Facing an Issue? We're Here to Help!</h2>
+            <p>Whether it's a concern or a complaint, we're dedicated to resolving it. Click below to quickly register your issue, and we'll get back to you as soon as possible.</p>
+            <button onclick="window.location.href='/login'">Register Your Complaint</button>
+        </div>
+    </section>
+
+    
+<!-- Departments Section -->
+<section id="departments" class="departments">
+    <div class="department-card education" 
+         style="background-image: url('/static/education.jpeg'); background-size: cover; background-position: center; width:600px; height:300px" 
+         onclick="window.location.href='/education'">
+        <h3>Education Department</h3>
+    </div>
+    <div class="department-card agriculture" 
+         style="background-image: url('/static/agriculture.jpeg'); background-size: cover; background-position: center; width:600px; height:300px" 
+         onclick="window.location.href='/agriculture'">
+        <h3>Agriculture Department</h3>
+    </div>
+    <div class="department-card water" 
+         style="background-image: url('/static/water.jpeg'); background-size: auto; background-position: center; width:600px; height:300px" 
+         onclick="window.location.href='/water'">
+        <h3>Water Department</h3>
+    </div>
+    <div class="department-card transport" 
+         style="background-image: url('/static/transport.jpeg'); background-size: cover; background-position: center; width:600px; height:300px" 
+         onclick="window.location.href='/transport'">
+        <h3>Transport Department</h3>
+    </div>
+    <div class="department-card health" 
+         style="background-image: url('/static/health.jpg'); background-size: cover; background-position: center; width:600px; height:300px" 
+         onclick="window.location.href='/health'">
+        <h3>Health Department</h3>
+    </div>
+    <div class="department-card electricity" 
+    style="background-image: url('/static/electricity.jpg'); background-size: cover; background-position: center; width:600px; height:300px" 
+    onclick="window.location.href='/electricity'">
+   <h3>Electricity Department</h3>
+</div>
+</section>
+
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <p>Want to be a part of this mission? Reach out to us!</p>
+            <form action="#" method="POST">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <p>&copy; 2024 Village Project. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

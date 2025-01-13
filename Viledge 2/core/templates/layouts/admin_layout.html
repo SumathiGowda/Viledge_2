@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Dashboard | Complaint Management System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        h1, h4 {
+            margin: 0;
+            color: #333;
+        }
+
+        .container-scroller {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .navbar {
+            background-color: #343a40;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: xx-large;
+        }
+
+        .menu-toggle {
+            cursor: pointer;
+            font-size: 24px;
+            color: white;
+        }
+
+        .sidebar {
+            background-color: #343a40;
+            color: white;
+            width: 250px;
+            padding: 20px;
+            height: 100%;
+            position: fixed;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .sidebar a:hover {
+            text-decoration: underline;
+        }
+
+        .main-panel {
+            margin-left: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            flex: 1;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-panel.shifted {
+            margin-left: 250px;
+        }
+
+        .card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .card h4 {
+            margin-bottom: 20px;
+        }
+
+        .useful-content {
+            margin-top: 20px;
+        }
+
+        /* Report Summary Cards */
+        .row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .report-inner-card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .inner-card-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .report-title {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .report-count {
+            font-size: 32px;
+            margin: 5px 0;
+        }
+
+        .inner-card-icon {
+            font-size: 40px;
+            width: 50px;
+            height: 50px;
+            background-color: #ddd;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .bg-success {
+            background-color: #87CEEB;
+        }
+
+        .bg-danger {
+            background-color: #dc3545;
+        }
+
+        .bg-warning {
+            background-color:  #28a745;
+        }
+
+        /* Complaint List Section */
+        .complaint-list {
+            margin-top: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .complaint-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .complaint-item:last-child {
+            border-bottom: none;
+        }
+
+        .complaint-item div {
+            width: 20%;
+            text-align: center;
+        }
+
+        .search-filter {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .search-filter input,
+        .search-filter select {
+            padding: 8px;
+            margin: 0 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuToggle = document.querySelector(".menu-toggle");
+            const sidebar = document.querySelector(".sidebar");
+            const mainPanel = document.querySelector(".main-panel");
+
+            menuToggle.addEventListener("click", function () {
+                sidebar.classList.toggle("active");
+                mainPanel.classList.toggle("shifted");
+            });
+
+            // Sample data (you would fetch this data dynamically from a database)
+            const complaints = [
+                {
+                    complaint_id: "001",
+                    name: "John Doe",
+                    phone: "1234567890",
+                    location: "New York",
+                    department: "Water Supply",
+                    complaint: "No water supply in the area.",
+                    submitted_at: "2024-12-01 12:00:00"
+                },
+                {
+                    complaint_id: "002",
+                    name: "Jane Smith",
+                    phone: "0987654321",
+                    location: "Los Angeles",
+                    department: "Electricity",
+                    complaint: "Power outage in my neighborhood.",
+                    submitted_at: "2024-12-02 14:30:00"
+                },
+                // Add more complaints as needed
+            ];
+
+            // Function to filter and display complaints
+            function displayComplaints(filteredComplaints) {
+                const complaintListContainer = document.querySelector(".complaint-list");
+                complaintListContainer.innerHTML = "";  // Clear previous complaints
+                filteredComplaints.forEach(complaint => {
+                    const complaintItem = document.createElement("div");
+                    complaintItem.classList.add("complaint-item");
+
+                    complaintItem.innerHTML = `
+                        <div>${complaint.complaint_id}</div>
+                        <div>${complaint.name}</div>
+                        <div>${complaint.phone}</div>
+                        <div>${complaint.location}</div>
+                        <div>${complaint.department}</div>
+                        <div>${complaint.submitted_at}</div>
+                    `;
+
+                    complaintListContainer.appendChild(complaintItem);
+                });
+            }
+
+            // Search and filter functionality
+            const searchInput = document.querySelector("#search");
+            const departmentFilter = document.querySelector("#department");
+
+            function filterComplaints() {
+                const searchQuery = searchInput.value.toLowerCase();
+                const selectedDepartment = departmentFilter.value;
+
+                const filteredComplaints = complaints.filter(complaint => {
+                    const matchesSearch = complaint.complaint_id.toLowerCase().includes(searchQuery) ||
+                                          complaint.name.toLowerCase().includes(searchQuery) ||
+                                          complaint.phone.toLowerCase().includes(searchQuery) ||
+                                          complaint.location.toLowerCase().includes(searchQuery) ||
+                                          complaint.department.toLowerCase().includes(searchQuery);
+                    const matchesDepartment = selectedDepartment === "all" || complaint.department === selectedDepartment;
+
+                    return matchesSearch && matchesDepartment;
+                });
+
+                displayComplaints(filteredComplaints);
+            }
+
+            // Initialize with all complaints
+            displayComplaints(complaints);
+
+            // Add event listeners for search and filter inputs
+            searchInput.addEventListener("input", filterComplaints);
+            departmentFilter.addEventListener("change", filterComplaints);
+        });
+    </script>
+</head>
+
+
+<body>
+{% block content %}
+{% endblock %}
+  
+</body>
+</html>

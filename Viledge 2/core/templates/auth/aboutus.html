@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn about our mission to empower rural communities through sustainable development projects.">
+    <title>About Us | VilEdge</title>
+    <link rel="stylesheet" href="/static/form.css">
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .header {
+            background-color: #003366;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+        }
+
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1rem;
+        }
+
+        .header nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* About Section */
+        .about {
+            background-color: #e8f5e9;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .about h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .about p {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <h1>VilEdge: Village Management System</h1><br>
+            <nav>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'depart' %}">Departments</a>
+                <a href="{% url 'status' %}">Check Complaint Status</a>
+                <a href="{% url 'aboutUs' %}">About Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <h2>About Us</h2>
+            <p>
+                VilEdge is a transformative initiative dedicated to empowering rural communities. 
+                Our mission is to foster sustainable development by providing essential resources, 
+                education, and support systems to enhance the quality of life in villages.
+            </p>
+            <p>
+                Through innovative projects in education, clean water, and agriculture, 
+                we aim to create self-reliant, thriving communities that can shape their own future.
+            </p>
+            <p>
+                Join us in making a difference and building a better tomorrow for our villages. 
+                Together, we can bring about meaningful change.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <p>&copy; 2024 VilEdge Project. All rights reserved.</p>
+    </footer>
+</body>
+</html>

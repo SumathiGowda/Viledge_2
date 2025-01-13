@@ -1,0 +1,278 @@
+{% extends 'layouts/admin_layout.html' %}
+
+{% block content %}
+
+<script src="http://localhost:8097"></script>
+<body>
+    <style>
+        .status-pending {
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+    
+        .status-in-progress {
+            background-color: yellow;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+    
+        .status-solved {
+            background-color: green;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+    </style>
+    <script>
+        const csrfToken = "{{ csrf_token }}";
+    </script>
+    
+    <div class="container-scroller">
+        <!-- Navbar -->
+        <div class="navbar">
+            <span>Admin Dashboard | Complaint Management System</span>
+            <span class="menu-toggle">&#9776;</span>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h3>Menu</h3>
+            <a href="{% url 'admin_dashboard' %}">Dashboard</a>
+            <a href="{% url 'complaint_page' %}">Complaint Management</a>
+            <a href="#">Settings</a>
+            <a href="#">Help and Support</a>
+            <a href="{% url 'role_selection' %}">Logout</a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+              
+
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Complaint List</h4>
+                        <div class="search-filter">
+                            <input type="text" id="search" placeholder="Search complaints...">
+                            <select id="department">
+                                <option value="all">All Departments</option>
+                                <option value="water">Water</option>
+                                <option value="electricity">Electricity</option>
+                                <option value="health">Health</option>
+                                <option value="agriculture">Agriculture</option>
+                                <option value="education">Education</option>
+                                <option value="transport">Transport</option>
+                            </select>
+                            <select id="status">
+                                <option value="all">All Status</option>
+                                <option value="Pending">Pending</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Solved">Solved</option>
+                            </select>
+                            <label style="margin-right: 10px;">From Date</label>
+                            <input type="date" id="date-from" placeholder="From" style="margin-right: 20px; padding: 5px;">
+                            <label style="margin-right: 10px;">To Date</label>
+                            <input type="date" id="date-to" placeholder="To" style="padding: 5px;">
+                        </div>
+
+                        <!-- Bulk Status Update Section -->
+                        <div style="margin-top: 20px;">
+                            <button id="select-all" style="padding: 10px; background-color: #4CAF50; color: white;">Select All</button>
+                            <button id="deselect-all" style="padding: 10px; background-color: #f44336; color: white;">Deselect All</button>
+                            <select id="bulk-status" style="margin-left: 10px;">
+                                <option value="Pending">Pending</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Solved">Solved</option>
+                            </select>
+                            <button id="apply-bulk-status" style="margin-left: 10px; padding: 10px; background-color: #2196F3; color: white;">Apply Status</button>
+                        </div>
+
+                        <table id="complaint-table" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                            <thead>
+                                <tr>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">
+                                        <input type="checkbox" id="select-all-checkbox" />
+                                    </th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Sl No</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Complaint ID</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Name</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Department</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Location</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Submitted At</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for complaint in complaints %}
+                                <tr id="complaint-{{ complaint.complaint_id }}">
+                                    <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
+                                        <input type="checkbox" class="complaint-checkbox" data-complaint-id="{{ complaint.complaint_id }}" />
+                                    </td>
+                                    <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">{{ forloop.counter }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
+                                        <a href="{% url 'complaint_details' complaint.complaint_id %}" style="color: #007bff; text-decoration: none;">
+                                            {{ complaint.complaint_id }}
+                                        </a>
+                                    </td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ complaint.name }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ complaint.department }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ complaint.location }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ complaint.created_at|date:"Y-m-d" }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;" id="status-{{ complaint.complaint_id }}">
+                                        <span class="{% if complaint.status == 'pending' %}status-pending{% elif complaint.status == 'in_progress' %}status-in-progress{% elif complaint.status == 'solved' %}status-solved{% endif %}">
+                                            {{ complaint.status }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const searchInput = document.getElementById("search");
+                    const departmentSelect = document.getElementById("department");
+                    const statusSelect = document.getElementById("status");
+                    const dateFromInput = document.getElementById("date-from");
+                    const dateToInput = document.getElementById("date-to");
+                
+                    // Filter function for complaints
+                    function filterComplaints() {
+                        const searchValue = searchInput.value.toLowerCase().trim();
+                        const departmentValue = departmentSelect.value.toLowerCase().trim(); 
+                        const statusValue = statusSelect.value.toLowerCase().trim(); 
+                        const dateFromValue = dateFromInput.value;
+                        const dateToValue = dateToInput.value;
+                
+                        const rows = document.querySelectorAll("#complaint-table tbody tr");
+                
+                        rows.forEach(row => {
+                            const complaintId = row.cells[2].textContent.toLowerCase().trim();
+                            const name = row.cells[3].textContent.toLowerCase().trim();
+                            const department = row.cells[4].textContent.toLowerCase().trim(); 
+                            const status = row.cells[7].textContent.toLowerCase().trim();
+                            const createdAt = row.cells[6].textContent.trim();
+                
+                            const matchesSearch = complaintId.includes(searchValue) || name.includes(searchValue);
+                            const matchesDepartment = departmentValue === "all" || department.includes(departmentValue);
+                            const matchesStatus = statusValue === "all" || status.includes(statusValue);
+                            const createdAtDate = new Date(createdAt);
+                            const fromDate = new Date(dateFromValue);
+                            const toDate = new Date(dateToValue);
+                            const matchesDateRange = (!dateFromValue || createdAtDate >= fromDate) && (!dateToValue || createdAtDate <= toDate);
+                
+                            if (matchesSearch && matchesDepartment && matchesStatus && matchesDateRange) {
+                                row.style.display = "";
+                            } else {
+                                row.style.display = "none";
+                            }
+                        });
+                    }
+                
+                    // Trigger filter when inputs change
+                    searchInput.addEventListener("input", filterComplaints);
+                    departmentSelect.addEventListener("change", filterComplaints);
+                    statusSelect.addEventListener("change", filterComplaints);
+                    dateFromInput.addEventListener("change", filterComplaints);
+                    dateToInput.addEventListener("change", filterComplaints);
+                
+                    // Bulk selection of all checkboxes
+                    document.getElementById('select-all').addEventListener('click', function () {
+                        document.querySelectorAll('.complaint-checkbox').forEach(function (checkbox) {
+                            checkbox.checked = true;
+                        });
+                    });
+                
+                    document.getElementById('deselect-all').addEventListener('click', function () {
+                        document.querySelectorAll('.complaint-checkbox').forEach(function (checkbox) {
+                            checkbox.checked = false;
+                        });
+                    });
+                
+                   
+                    // Add event listener for any status changes on the details page
+                    document.querySelectorAll('select[name="status"]').forEach(function(selectElement) {
+                        selectElement.addEventListener('change', function(event) {
+                            let complaintId = this.closest('form').dataset.complaintId;
+                            let newStatus = this.value;
+                
+                            fetch("{% url 'update_complaint_status' 0 %}".replace('0', complaintId), {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRFToken': '{{ csrf_token }}'
+                                },
+                                body: JSON.stringify({status: newStatus})
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                document.getElementById('status-' + complaintId).textContent = data.status;
+                            });
+                        });
+                    });
+                });
+                
+                </script>
+
+                <script>
+                    // Get elements
+                    const selectAllBtn = document.getElementById('select-all');
+                    const deselectAllBtn = document.getElementById('deselect-all');
+                    const complaintCheckboxes = document.querySelectorAll('.complaint-checkbox');
+                    const bulkStatusDropdown = document.getElementById('bulk-status');
+                    const applyBulkStatusBtn = document.getElementById('apply-bulk-status');
+                    
+                    // Select all checkboxes
+                    selectAllBtn.addEventListener('click', function() {
+                        complaintCheckboxes.forEach(function(checkbox) {
+                            checkbox.checked = true;
+                        });
+                    });
+                    
+                    // Deselect all checkboxes
+                    deselectAllBtn.addEventListener('click', function() {
+                        complaintCheckboxes.forEach(function(checkbox) {
+                            checkbox.checked = false;
+                        });
+                    });
+                
+                    // Apply bulk status
+                    applyBulkStatusBtn.addEventListener('click', function() {
+                        const selectedStatus = bulkStatusDropdown.value;
+                        
+                        // Iterate over the checked checkboxes and update their status
+                        complaintCheckboxes.forEach(function(checkbox) {
+                            if (checkbox.checked) {
+                                const complaintId = checkbox.getAttribute('data-complaint-id');
+                                const statusElement = document.getElementById(`status-${complaintId}`);
+                                
+                                // Update status in the UI based on the selected bulk status
+                                let statusClass = '';
+                                let statusText = '';
+                                
+                                if (selectedStatus === 'Pending') {
+                                    statusClass = 'status-pending';
+                                    statusText = 'Pending';
+                                } else if (selectedStatus === 'In Progress') {
+                                    statusClass = 'status-in-progress';
+                                    statusText = 'In Progress';
+                                } else if (selectedStatus === 'Solved') {
+                                    statusClass = 'status-solved';
+                                    statusText = 'Solved';
+                                }
+                
+                                // Update the status in the DOM
+                                statusElement.innerHTML = `<span class="${statusClass}">${statusText}</span>`;
+                            }
+                        });
+                    });
+                </script>
+                
+
+{% endblock %}

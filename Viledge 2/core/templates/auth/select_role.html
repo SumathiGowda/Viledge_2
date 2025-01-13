@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viledge: Village Management Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e8f4f8;
+        }
+        .header {
+            position: absolute;
+            top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+
+      
+
+   
+        
+        }
+        .container {
+            text-align: center;
+            background: #fff;
+            padding: 40px 60px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+        }
+        h1 {
+            margin-bottom: 30px;
+            color: #34495e;
+        }
+        .image-group {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        .image-group img {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .image-group img:hover {
+            transform: scale(1.1);
+        }
+        .role-label {
+            font-size: 16px;
+            margin-top: 10px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        /* Button Styles (matching first file's button style) */
+        button {
+            background-color: #003366;
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #002a5d;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Viledge: Village Management Portal</div><br>
+    <div class="container">
+        <h1>Select Your Role</h1>
+        <form method="POST" action="{% url 'role_selection' %}">
+            {% csrf_token %}
+            <div class="image-group">
+                <div>
+                    <input type="radio" id="user" name="role" value="user">
+                    <img src="core/static/user.png" alt="User Icon">
+                    <div class="role-label">User</div>
+                </div>
+                <div>
+                    <input type="radio" id="admin" name="role" value="admin">
+                    <img src="core/static/admin.png" alt="Admin Icon">
+                    <div class="role-label">Admin</div>
+                </div>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,247 @@
+{% extends 'layouts/admin_layout.html' %}
+
+{% block content %}
+<body>
+    <style>
+        .status-pending {
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+    
+        .status-in-progress {
+            background-color: yellow;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+    
+        .status-solved {
+            background-color: green;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+    </style>
+    
+    <div class="container-scroller">
+        <!-- Navbar -->
+        <div class="navbar">
+            <span>Admin Dashboard | Complaint Management System</span>
+            <span class="menu-toggle">&#9776;</span>
+        </div>
+       
+        
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h3>Menu</h3>
+            <a href="{% url 'admin_dashboard' %}">Dashboard</a>
+            <a href="{% url 'complaint_page' %}">Complaint Management</a>
+            <a href="#">Settings</a>
+            <a href="#">Help and Support</a>
+            <a href="{% url 'role_selection' %}">Logout</a>
+        </div>
+
+        <!-- Main Content -->
+        <!-- your_template.html -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        <!-- Report Summary Cards -->
+        <div class="row">
+            <div class="report-inner-card">
+                <div class="inner-card-text">
+                    <span class="report-title">Total Complaints</span>
+                    <h4 class="report-count" id="total_complaints">Loading...</h4>
+                </div>
+                <div class="inner-card-icon bg-success">T</div>
+            </div>
+
+            <div class="report-inner-card">
+                <div class="inner-card-text">
+                    <span class="report-title">Pending Complaints</span>
+                    <h4 class="report-count" id="pending_complaints">Loading...</h4>
+                </div>
+                <div class="inner-card-icon bg-danger">P</div>
+            </div>
+
+            <div class="report-inner-card">
+                <div class="inner-card-text">
+                    <span class="report-title">Solved Complaints</span>
+                    <h4 class="report-count" id="solved_complaints">Loading...</h4>
+                </div>
+                <div class="inner-card-icon bg-warning">S</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Fetch complaint counts using AJAX
+    function fetchComplaintCounts() {
+        fetch("{% url 'complaint_counts' %}")
+            .then(response => response.json())
+            .then(data => {
+                // Update the counts in the DOM
+                document.getElementById('total_complaints').innerText = data.total_complaints;
+                document.getElementById('pending_complaints').innerText = data.pending_complaints;
+                document.getElementById('solved_complaints').innerText = data.solved_complaints;
+            })
+            .catch(error => console.error('Error fetching complaint counts:', error));
+    }
+
+    // Fetch counts when the page is loaded
+    window.onload = fetchComplaintCounts;
+</script>
+
+        
+
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Complaint List</h4>
+                        <div class="search-filter">
+                            <input type="text" id="search" placeholder="Search complaints...">
+                            <select id="department">
+                                <option value="all">All Departments</option>
+                                <option value="water">Water</option>
+                                <option value="electricity">Electricity</option>
+                                <option value="health">Health</option>
+                                <option value="agriculture">Agriculture</option>
+                                <option value="education">Education</option>
+                                <option value="transport">Transport</option>
+                            </select>
+                            <select id="status">
+                                <option value="all">All Status</option>
+                                <option value="Pending">Pending</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Solved">Solved</option>
+                            </select>
+                            <label style="margin-right: 10px;">From Date</label>
+                            <input type="date" id="date-from" placeholder="From" style="margin-right: 20px; padding: 5px;">
+                            <label style="margin-right: 10px;">To Date</label>
+                            <input type="date" id="date-to" placeholder="To" style="padding: 5px;">
+                        </div>
+
+                        <table id="complaint-table" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                            <thead>
+                                <tr>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Sl No</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Complaint ID</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Name</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Department</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Location</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Submitted At</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for complaint in complaints %}
+                                <tr id="complaint-{{ complaint.complaint_id }}">
+                                    <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">{{ forloop.counter }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
+                                        <a href="{% url 'complaint_details' complaint.complaint_id %}" style="color: #007bff; text-decoration: none;">
+                                            {{ complaint.complaint_id }}
+                                        </a>
+                                    </td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ complaint.name }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ complaint.department }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ complaint.location }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ complaint.created_at|date:"Y-m-d" }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;" id="status-{{ complaint.complaint_id }}">
+                                        <span class="{% if complaint.status == 'pending' %}status-pending{% elif complaint.status == 'in_progress' %}status-in-progress{% elif complaint.status == 'solved' %}status-solved{% endif %}">
+                                            {{ complaint.status }}
+                                        </span>
+                                    </td>
+                                    
+                                </tr>
+
+                           
+
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        
+            <script>
+                // Add event listener for any status changes (on the details page, status dropdown)
+                document.querySelectorAll('select[name="status"]').forEach(function(selectElement) {
+                    selectElement.addEventListener('change', function(event) {
+                        let complaintId = this.closest('form').dataset.complaintId;
+                        let newStatus = this.value;
+        
+                        fetch("{% url 'update_complaint_status' 0 %}".replace('0', complaintId), {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            },
+                            body: JSON.stringify({status: newStatus})
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('status-' + complaintId).textContent = data.status;
+                        });
+                    });
+                });
+            
+        
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const searchInput = document.getElementById("search");
+                        const departmentSelect = document.getElementById("department");
+                        const statusSelect = document.getElementById("status");
+                        const dateFromInput = document.getElementById("date-from");
+                        const dateToInput = document.getElementById("date-to");
+
+                        // Function to filter the table based on selected filters
+                        function filterComplaints() {
+                            const searchValue = searchInput.value.toLowerCase().trim();
+                            const departmentValue = departmentSelect.value.toLowerCase().trim(); 
+                            const statusValue = statusSelect.value.toLowerCase().trim(); 
+                            const dateFromValue = dateFromInput.value;
+                            const dateToValue = dateToInput.value;
+
+                            const rows = document.querySelectorAll("#complaint-table tbody tr");
+
+                            rows.forEach(row => {
+                                const complaintId = row.cells[1].textContent.toLowerCase().trim();
+                                const name = row.cells[2].textContent.toLowerCase().trim();
+                                const department = row.cells[3].textContent.toLowerCase().trim(); 
+                                const status = row.cells[6].textContent.toLowerCase().trim();
+                                const createdAt = row.cells[5].textContent.trim();
+
+                                // Filter by search input
+                                const matchesSearch = complaintId.includes(searchValue) || name.includes(searchValue);
+
+                                // Filter by department (case insensitive matching)
+                                const matchesDepartment = departmentValue === "all" || department.includes(departmentValue);
+
+                                // Filter by status (case insensitive matching)
+                                const matchesStatus = statusValue === "all" || status.includes(statusValue);
+
+                                // Filter by date range
+                                const createdAtDate = new Date(createdAt);
+                                const fromDate = new Date(dateFromValue);
+                                const toDate = new Date(dateToValue);
+                                const matchesDateRange = (!dateFromValue || createdAtDate >= fromDate) && (!dateToValue || createdAtDate <= toDate);
+
+                                // Show row if all filters match, otherwise hide it
+                                if (matchesSearch && matchesDepartment && matchesStatus && matchesDateRange) {
+                                    row.style.display = "";
+                                } else {
+                                    row.style.display = "none";
+                                }
+                            });
+                        }
+
+                        // Event listeners to trigger filtering when any filter changes
+                        searchInput.addEventListener("input", filterComplaints);
+                        departmentSelect.addEventListener("change", filterComplaints);
+                        statusSelect.addEventListener("change", filterComplaints);
+                        dateFromInput.addEventListener("change", filterComplaints);
+                        dateToInput.addEventListener("change", filterComplaints);
+                    });
+                </script>
+
+{% endblock %}

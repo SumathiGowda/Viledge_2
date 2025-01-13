@@ -1,0 +1,76 @@
+ {% extends 'layouts/form.html' %}
+
+ {% block content %}
+ <!-- Header Section -->
+ <header class="header">
+    <div class="container">
+        <h1>VilEdge: Village Management System</h1><br>
+        <nav>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'depart' %}">Departments</a>
+            <a href="{% url 'status' %}">Check Complaint Status</a>
+            <a href="{% url 'aboutUs' %}"">About Us</a>
+        </nav>
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <h2>Join Us and Make a Difference!</h2>
+        <p>Sign up today to become a part of our mission to empower rural communities through sustainable projects and innovations.</p>
+    </div>
+</section>
+
+<!-- Sign Up Form Section -->
+<section class="signup-form">
+    <div class="container">
+        <h2>Create Your Account</h2>
+        <form id="signupForm" action="{% url 'signup' %}" method="POST">
+           <!-- <input type="text" name="full_name" id="full_name" placeholder="Full Name" required>
+            <input type="email" name="email" id="email" placeholder="Email Address" required>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required>
+            <button type="submit">Sign Up</button>
+           -->
+           {% csrf_token %}
+           <div class="form-group">
+            <label for="{{form.username.id_for_label}}">Username</label>
+            <input type="text" name="{{form.username.name}}" class="form-control" value="{{form.username.value}}" placeholder="Username" required>
+            <span class="text-danger">{{form.username.errors}}</span>
+           </div>
+
+           <div class="form-group">
+            <label for="{{form.password1.id_for_label}}">Password</label>
+            <input type="text" name="{{form.password1.name}}" class="form-control" value="{{form.password1.value}}" placeholder="Password" required>
+            <span class="text-danger">{{form.password1.errors}}</span>
+           </div>
+
+           <div class="form-group">
+            <label for="{{form.password2.id_for_label}}">Re-Type Password</label>
+            <input type="text" name="{{form.password2.name}}" class="form-control" value="{{form.password2.value}}" placeholder="Confirm Password" required>
+            <span class="text-danger">{{form.password2.errors}}</span>
+           </div>
+           <div style="display: flex; gap: 10px; width: 100%;">
+            <button type="submit" style="flex: 1; padding: 8px 16px; font-size: 14px;">Sign Up</button>
+            <a href="{% url 'login' %}" style="display: inline-block; text-decoration: none; flex: 1;">
+                <button type="button" style="width: 100%; padding: 8px 16px; font-size: 14px;">Log In</button>
+            </a>
+        </div>
+        
+        
+        
+        
+        
+
+        </form>
+    </div>
+</section>
+
+<!-- Footer Section -->
+<footer class="footer">
+    <p>&copy; 2024 Village Project. All rights reserved.</p>
+</footer>
+
+
+{% endblock %}

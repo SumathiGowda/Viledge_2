@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Empowering rural communities through sustainable village projects. Join us in making a difference!">
+    <title>VilEdge | Empowering Communities</title>
+   
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .header {
+            background-color: #003366;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+        }
+
+        .header nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1rem;
+        }
+
+        .header nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: #005a9e;
+            color: #fff;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .hero button {
+            background-color: #003366;
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .hero button:hover {
+            background-color: #002a5d;
+        }
+
+        /* Marquee Section */
+        .marquee {
+            background-color: DodgerBlue;
+            color: #003366;
+            padding: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* About Section */
+        .about {
+            background-color: #e8f5e9;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .about h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .about p {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 80px 0;
+            background-color: #ffffff;
+            text-align: center;
+        }
+
+        .projects h2 {
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background-color: #003366;
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .project-card p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .project-icon {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        .projects button {
+            background-color: #005a9e;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .projects button:hover {
+            background-color: #003366;
+        }
+
+        /* Contact Section */
+        .contact {
+            background-color: #f5f5f5;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .contact p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .contact form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact input,
+        .contact textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .contact button {
+            background-color: #003366;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .contact button:hover {
+            background-color: #002a5d;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <h1>VilEdge: Village Management System</h1>
+            <br>
+            <nav>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="/depart">Departments</a>
+                <a href="/status">Check Complaint Status</a>
+                <a href="/aboutUs">About Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Marquee Section -->
+    <section class="marquee">
+        <marquee>Important Update: Register your complaints and get assistance promptly! We are committed to resolving your concerns. Stay connected!</marquee>
+    </section>
+
+    <!-- Hero Section (Enhanced) -->
+    <section class="hero">
+        <div class="container">
+            <h2>Facing an Issue? We're Here to Help!</h2>
+            <p>Whether it's a concern or a complaint, we're dedicated to resolving it. Click below to quickly register your issue, and we'll get back to you as soon as possible.</p>
+            <button onclick="window.location.href='/login'">Register Your Complaint</button>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About Our Project</h2>
+            <p>Our mission is to empower rural communities by providing resources, training, and support to create sustainable solutions for their future. We believe in collaboration, innovation, and inclusion to build stronger, self-reliant villages.</p>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2>Our Projects</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-icon">&#128218;</div>
+                    <h3>Education for All</h3>
+                    <p>Providing access to quality education through mobile schools and community education centers.</p>
+                </div>
+                <div class="project-card">
+                    <div class="project-icon">&#x1F4A7;</div>
+                    <h3>Clean Water Initiatives</h3>
+                    <p>Building sustainable water sources and ensuring access to clean water for all villagers.</p>
+                </div>
+                <div class="project-card">
+                    <div class="project-icon">&#127795;</div>
+                    <h3>Agriculture Support</h3>
+                    <p>Training local farmers in sustainable farming practices to improve crop yield and food security.</p>
+                </div>
+            </div>
+            <button onclick="window.location.href='#contact'">Get Involved</button>
+        </div>
+    </section>
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <p>Want to be a part of this mission? Reach out to us!</p>
+            <form action="#" method="POST">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <p>&copy; 2024 Village Project. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

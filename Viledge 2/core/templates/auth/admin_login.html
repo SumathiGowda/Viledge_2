@@ -1,0 +1,56 @@
+{% extends 'layouts/form.html' %}
+
+{% block content %}
+<!-- Header Section -->
+<header class="header">
+   <div class="container">
+       <h1>VilEdge: Village Management System</h1>
+      
+   </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+   <div class="container">
+       <h2>Admin Log In</h2>
+       <p>Access the administrative dashboard to manage village projects and data.</p>
+   </div>
+</section>
+
+<!-- Login Form Section -->
+<section class="signup-form">
+   <div class="container">
+       <h2>Log In as Admin</h2>
+       <form id="signupForm" action="{% url 'admin_login' %}" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+           <label for="{{form.username.id_for_label}}">Username</label>
+           <input type="text" name="{{form.username.name}}" class="form-control" value="{{form.username.value}}" placeholder="Username" required>
+           <span class="text-danger">{{form.username.errors}}</span>
+          </div>
+
+          <div class="form-group">
+           <label for="{{form.password.id_for_label}}">Password</label>
+           <input type="password" name="{{form.password.name}}" class="form-control" value="{{form.password.value}}" placeholder="Password" required>
+           <span class="text-danger">{{form.password.errors}}</span>
+          </div>
+
+          <div style="display: auto; gap: 10px; width: 100%;">
+            <button type="submit" style="flex: 1; padding: 8px 16px; font-size: 14px;">Log In</button>
+            
+              
+            </div>
+         </div>
+      </div>
+   </div>
+
+       </form>
+   </div>
+</section>
+
+<!-- Footer Section -->
+<footer class="footer">
+   <p>&copy; 2024 Village Project. All rights reserved.</p>
+</footer>
+
+{% endblock %}
